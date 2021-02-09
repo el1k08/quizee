@@ -14,11 +14,7 @@ const FinishedQuiz = (props) => {
     <div className={classes.FinishedQuiz}>
       <ul>
 
-        
-
         { props.quiz.map((quizItem, index) => {
-
-
           return (
             <li key={index}>
               <strong>{index + 1}.</strong>&nbsp;
@@ -29,7 +25,6 @@ const FinishedQuiz = (props) => {
               />
             </li>
           )
-
         })}
       </ul>
 
