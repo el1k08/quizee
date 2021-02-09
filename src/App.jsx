@@ -1,14 +1,18 @@
 import React from 'react';
 import Layout from './hoc/Layout/Layout'
+import Quiz from './containers/Quiz/Quiz'
+
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
+
+library.add(faCheck, faTimes)
 
 class App extends React.Component {
   state = {  }
   render() { 
     return ( 
       <Layout>
-        <div style={{width: 400, border: '1px solid black'}}>
-          <h1>Layout work!</h1>
-        </div>
+        <Quiz/>
       </Layout>
     );
   }
