@@ -1,20 +1,43 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom'
 import classes from './QuizList.module.scss'
+import QuizService from '../../Services/QuizService'
+import Loader from '../../components/UI/Loader/Loader'
 
 class QuizList extends React.Component {
-  state = {  }
+  state = { 
+    quizes: [],
+    loading: true
+   }
 
   renderQuizes() {
-    return [1, 2, 3].map((quiz, index) => {
+    return this.state.quizes.map((quiz) => {
       return (
-        <li key={index}>
-          <NavLink to={'/quiz/' + quiz}>
-            Тест {quiz}
+        <li key={quiz.id}>
+          <NavLink to={'/quiz/' + quiz.id}>
+            {quiz.name}
           </NavLink>
         </li>
       )
     })
+  }
+
+  async componentDidMount() {
+    try {
+      const { data } = await QuizService.getAllQuizes()
+      const quizes = []
+      Object.keys(data).forEach((key, index) => {
+        quizes.push({
+          id: key,
+          name: `Тест № ${index + 1}`
+        })
+      })
+
+      this.setState({quizes, loading: false})
+    } catch(e) {
+      console.log(e)
+    }
+    
   }
 
   render() { 
@@ -22,10 +45,13 @@ class QuizList extends React.Component {
       <div className={classes.QuizList}>
         <div>
           <h1>Список Тестов</h1>
-
-          <ul>
-            { this.renderQuizes()  }
-          </ul>
+          { this.state.loading 
+              ? <Loader /> 
+              : <ul>
+                  { this.renderQuizes()  }
+                </ul>
+          }
+          
         </div>
       </div>
      );

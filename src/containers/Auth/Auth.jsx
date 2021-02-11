@@ -3,6 +3,7 @@ import classes from './Auth.module.scss'
 import Button from '../../components/UI/Button/Button'
 import Input from '../../components/UI/Input/Input'
 import is from 'is_js'
+import UserService from '../../Services/UserService'
 
 class Auth extends React.Component {
   
@@ -36,12 +37,37 @@ class Auth extends React.Component {
     }
    }
 
-  loginHandler = () => {
+  loginHandler = async () => {
+    try {
 
+      const authData = {
+        email: this.state.formControls.email.value,
+        password: this.state.formControls.email.value,
+        returnSecureToken: true
+      }
+  
+      const { data } = await UserService.signInUser(authData)
+      console.log('Response data: ',data)
+    } catch(e) {
+      console.log(e)
+    }
   }
 
-  registerHandler = () => {
+  registerHandler = async () => {
 
+    try {
+
+      const authData = {
+        email: this.state.formControls.email.value,
+        password: this.state.formControls.email.value,
+        returnSecureToken: true
+      }
+  
+      const { data } = await UserService.signUpUser(authData)
+      console.log('Response data: ',data)
+    } catch(e) {
+      console.log(e)
+    }
   }
 
   submitHandler = event => {
