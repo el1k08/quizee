@@ -3,7 +3,9 @@ import classes from './Auth.module.scss'
 import Button from '../../components/UI/Button/Button'
 import Input from '../../components/UI/Input/Input'
 import is from 'is_js'
-import UserService from '../../Services/UserService'
+import { auth } from '../../store/actions/auth'
+
+import { connect } from 'react-redux'
 
 class Auth extends React.Component {
   
@@ -37,37 +39,20 @@ class Auth extends React.Component {
     }
    }
 
-  loginHandler = async () => {
-    try {
-
-      const authData = {
-        email: this.state.formControls.email.value,
-        password: this.state.formControls.email.value,
-        returnSecureToken: true
-      }
-  
-      const { data } = await UserService.signInUser(authData)
-      console.log('Response data: ',data)
-    } catch(e) {
-      console.log(e)
-    }
+  loginHandler = () => {
+    this.props.auth(
+      this.state.formControls.email.value,
+      this.state.formControls.email.value,
+      true
+    )
   }
 
-  registerHandler = async () => {
-
-    try {
-
-      const authData = {
-        email: this.state.formControls.email.value,
-        password: this.state.formControls.email.value,
-        returnSecureToken: true
-      }
-  
-      const { data } = await UserService.signUpUser(authData)
-      console.log('Response data: ',data)
-    } catch(e) {
-      console.log(e)
-    }
+  registerHandler = () => {
+    this.props.auth(
+      this.state.formControls.email.value,
+      this.state.formControls.email.value,
+      false
+    )
   }
 
   submitHandler = event => {
@@ -163,5 +148,12 @@ class Auth extends React.Component {
      );
   }
 }
- 
-export default Auth;
+
+function mapDispatchToProps(dispatch) {
+  return {
+    auth: (email, password, isLogin) => dispatch(auth(email, password, isLogin))
+  }
+}
+
+
+export default connect(null, mapDispatchToProps)(Auth);
